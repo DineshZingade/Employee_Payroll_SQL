@@ -1,15 +1,14 @@
-UC1_Create_DataBase
+UC1-Create a payroll service database
 
-mysql> create database payroll_service;
-ERROR 1007 (HY000): Can't create database 'payroll_service'; database exists
 mysql> create database payroll_service_new;
-Query OK, 1 row affected (0.55 sec)
+Query OK, 1 row affected (0.51 sec)
 
 mysql> show databases;
 +---------------------+
 | Database            |
 +---------------------+
-| demo                |
+| addressbook_service |
+| employee_payroll    |
 | information_schema  |
 | mysql               |
 | payroll_service     |
@@ -17,27 +16,34 @@ mysql> show databases;
 | performance_schema  |
 | sys                 |
 +---------------------+
-7 rows in set (0.26 sec)
+8 rows in set (0.70 sec)
 
-UC2_Create_Table
-
-mysql> use payroll_service_new
+mysql> use payroll_service_new;
 Database changed
-mysql> create table employee_payroll(
-    -> id int unsigned not null auto_increment,
-    -> name varchar(100) not null,
-    -> salary double not null,
-    -> start date not null,
-    -> primary key(id));
-Query OK, 0 rows affected (0.26 sec)
 
-mysql> desc employee_payroll;
-+--------+--------------+------+-----+---------+----------------+
-| Field  | Type         | Null | Key | Default | Extra          |
-+--------+--------------+------+-----+---------+----------------+
-| id     | int unsigned | NO   | PRI | NULL    | auto_increment |
-| name   | varchar(100) | NO   |     | NULL    |                |
-| salary | double       | NO   |     | NULL    |                |
-| start  | date         | NO   |     | NULL    |                |
-+--------+--------------+------+-----+---------+----------------+
-4 rows in set (0.08 sec)
+UC2-Create employee payroll table in payroll service database
+
+mysql> create table employee_payroll_new(
+    -> id int unsigned not null auto_increment,
+    -> name varchar(30) not null,
+    -> salary double not null,
+    -> start_date date not null,
+    -> primary key(id));
+Query OK, 0 rows affected (1.27 sec)
+
+mysql> desc employee_payroll_new;
++------------+--------------+------+-----+---------+----------------+
+| Field      | Type         | Null | Key | Default | Extra          |
++------------+--------------+------+-----+---------+----------------+
+| id         | int unsigned | NO   | PRI | NULL    | auto_increment |
+| name       | varchar(30)  | NO   |     | NULL    |                |
+| salary     | double       | NO   |     | NULL    |                |
+| start_date | date         | NO   |     | NULL    |                |
++------------+--------------+------+-----+---------+----------------+
+4 rows in set (0.31 sec)
+
+UC3-Create employee payroll data in payroll service database as part of CURD operation
+
+mysql> insert into employee_payroll_new(name,salary,start_date)values('Bill',1000000.00,'2010-10-30'),('Tersia',2000000.00,'2019-11-13'),('Charlie',300000.00,'2020-05-21');
+Query OK, 3 rows affected (0.54 sec)
+Records: 3  Duplicates: 0  Warnings: 0
